@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Video HTML 5</title>
+		<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+		<link href="css/grid.css" type="text/css" rel="stylesheet" />
+		<link href="css/style.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		
+	</head>
+	<body>
+		<video controls loop height="360" width="640" poster="image/photo3.png" style="display:inline-block; margin:auto; display:none"> 
+			<source src="BigBuckBunny_640x360.mp4">
+			<source src="BigBuckBunny_640x360.ogv">
+		</video><canvas id="canvas1" height="360" width="640" style="display:inline-block; display:none"></canvas>
+		<canvas id="canvas2" height="360" width="640" style="display:inline-block"></canvas>
+		<div id="play" style="background-color:lightgreen">PLAY & PAUSED ON THE CANVAS</div>
+		
+		<script type="text/javascript">
+			setTimeout(function(){
+				$("video").attr("autoplay", "autoplay");
+			}, 1000);
+			
+		
+			var video = document.querySelector('video'),
+				canvas = document.querySelector('#canvas1'),
+				ctx = canvas.getContext('2d'),
+				canvas2 = document.querySelector('#canvas2'),
+				buttonPlay = document.getElementById('play'),
+				bricktab = [],
+				ctx2 = canvas2.getContext('2d')
+				
+				setInterval(function(){
+				ctx.drawImage(
+									video,
+									0,0,video.width,video.height,
+									0,0,canvas.width,canvas.height
+								);
+				},10);
+				
+			setInterval(function(){
+				for(i=0;i<20;i++){
+					for(j=0;j<20;j++){
+						if(j%2 == 0){	
+							if(i%2 == 0){
+								ctx2.drawImage(
+									canvas,
+									i*(video.width/20),j*(video.height/20),video.width/20,video.height/20,
+									i*(video.width/20),j*(video.height/20),canvas2.width/20,canvas2.height/20
+								);
+								coorX = i*(video.width/20);
+								coorY = j*(video.height/20);
+								bricktab.push({
+									coorX: coorX, 
+									coorY: coorY		
+								})
+							}
+						}else{
+							if(i%2 ==0){
+							ctx2.drawImage(
+									canvas,
+									(i+1)*(video.width/20),j*(video.height/20),video.width/20,video.height/20,
+									(i+1)*(video.width/20),j*(video.height/20),canvas2.width/20,canvas2.height/20
+								);
+							}
+						}
+					}
+				}
+			},10);
+			
+			canvas2.addEventListener('click', function(){
+				if(video.paused){
+					video.play();
+				}else{
+					video.pause();
+				};
+			});
+		</script>
+<!-- sfgsehgih -->
+	</body>
+</html>
